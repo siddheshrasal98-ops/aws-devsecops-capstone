@@ -38,9 +38,13 @@ pipeline {
         }
 
         stage('Docker Run') {
-            steps {
-                bat 'docker run -d --name employee-api --network employee-management-api_default -p 8080:8080 employee-management-api:latest'
-            }
+    steps {
+        dir('employee-management-api/employee-management-api') {
+            bat 'docker rm -f employee-api || exit 0'
+            bat 'docker run -d --name employee-api --network employee-management-api_default -p 8080:8080 employee-management-api:latest'
         }
     }
 }
+            }
+        }
+    
