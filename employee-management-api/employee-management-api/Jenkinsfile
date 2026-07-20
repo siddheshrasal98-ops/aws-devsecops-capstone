@@ -28,6 +28,17 @@ pipeline {
         }
     }
 }
+stage('OWASP Dependency Check') {
+    steps {
+        dependencyCheck(
+            odcInstallation: 'DependencyCheck',
+            additionalArguments: '--scan ./ --format XML --format HTML'
+        )
+        dependencyCheckPublisher(
+            pattern: '**/dependency-check-report.xml'
+        )
+    }
+}
 
         stage('Docker Build') {
             steps {
