@@ -53,7 +53,7 @@ stage('OWASP Dependency Check') {
         stage('Trivy Image Scan') {
     steps {
         dir('employee-management-api/employee-management-api') {
-            bat 'trivy image --format table -o trivy-report.txt employee-management-api:latest'
+            bat '"C:\\Users\\admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\AquaSecurity.Trivy_Microsoft.Winget.Source_8wekyb3d8bbwe\\trivy.exe" image --format table -o trivy-report.txt employee-management-api:latest'
         }
     }
 }
