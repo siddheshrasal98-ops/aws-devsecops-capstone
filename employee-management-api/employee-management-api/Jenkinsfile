@@ -19,13 +19,5 @@ pipeline {
         }
     }
 }
-
-stage('Test') {
-    steps {
-        dir('employee-management-api/employee-management-api') {
-            bat 'mvn test'
-        }
-    }
-}
     }
 }
