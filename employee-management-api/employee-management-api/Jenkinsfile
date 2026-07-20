@@ -50,6 +50,13 @@ stage('OWASP Dependency Check') {
                 }
             }
         }
+        stage('Trivy Image Scan') {
+    steps {
+        dir('employee-management-api/employee-management-api') {
+            bat 'trivy image --format table -o trivy-report.txt employee-management-api:latest'
+        }
+    }
+}
 
         stage('Docker Run') {
     steps {
