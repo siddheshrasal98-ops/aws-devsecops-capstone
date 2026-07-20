@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     tools {
         maven "Maven"
     }
@@ -13,11 +13,25 @@ pipeline {
         }
 
         stage('Build') {
-    steps {
-        dir('employee-management-api/employee-management-api') {
-            bat 'mvn clean package -DskipTests'
+            steps {
+                dir('employee-management-api/employee-management-api') {
+                    bat 'mvn clean package -DskipTests'
+                }
+            }
         }
-    }
-}
+
+        stage('Docker Build') {
+            steps {
+                dir('employee-management-api/employee-management-api') {
+                    bat 'docker build -t employee-management-api:latest .'
+                }
+            }
+        }
+
+        stage('Docker Run') {
+            steps {
+                bat 'docker run -d --name employee-api -p 8080:8080 employee-management-api:latest'
+            }
+        }
     }
 }
