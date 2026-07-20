@@ -19,6 +19,15 @@ pipeline {
                 }
             }
         }
+        stage('SonarQube Analysis') {
+    steps {
+        dir('employee-management-api/employee-management-api') {
+            withSonarQubeEnv('SonarQube') {
+                bat 'mvn verify sonar:sonar'
+            }
+        }
+    }
+}
 
         stage('Docker Build') {
             steps {
