@@ -30,7 +30,7 @@ pipeline {
 
         stage('Docker Run') {
             steps {
-                bat 'docker run -d --name employee-api -p 8080:8080 employee-management-api:latest'
+                bat 'docker run -d --name employee-api --network employee-management-api_default -p 8080:8080 employee-management-api:latest'
             }
         }
     }
