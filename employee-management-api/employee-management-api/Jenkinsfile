@@ -23,7 +23,7 @@ pipeline {
     steps {
         dir('employee-management-api/employee-management-api') {
             withSonarQubeEnv('SonarQube') {
-                bat 'mvn sonar:sonar =DskipTests'
+                bat 'mvn sonar:sonar -DskipTests'
             }
         }
     }
