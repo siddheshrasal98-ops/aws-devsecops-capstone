@@ -6,6 +6,7 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -19,35 +20,46 @@ pipeline {
                 }
             }
         }
+
         stage('SonarQube Analysis') {
-    steps {
-        dir('employee-management-api/employee-management-api') {
-            withSonarQubeEnv('SonarQube') {
-                bat 'mvn sonar:sonar -DskipTests'
+            steps {
+                dir('employee-management-api/employee-management-api') {
+                    withSonarQubeEnv('SonarQube') {
+                        bat 'mvn sonar:sonar -DskipTests'
+                    }
+                }
             }
         }
-    }
-stage('Checkov Scan') {
-    steps {
-        dir('employee-management-api/employee-management-api/terraform') {
-            bat 'checkov -d .'
-        }
-    }
-}
-stage('OWASP Dependency Check') {
-    steps {
-        withCredentials([string(credentialsId: 'nvd-api-key', variable: 'NVD_API_KEY')]) {
-            dependencyCheck(
-                odcInstallation: 'DependencyCheck',
-                additionalArguments: "--scan ./ --format XML --format HTML --nvdApiKey ${NVD_API_KEY}"
-            )
+
+        stage('Checkov Scan') {
+            steps {
+                dir('employee-management-api/employee-management-api/terraform') {
+                    bat 'checkov -d .'
+                }
+            }
         }
 
-        dependencyCheckPublisher(
-            pattern: '**/dependency-check-report.xml'
-        )
-    }
-}
+        stage('OWASP Dependency Check') {
+            steps {
+                dir('employee-management-api/employee-management-api') {
+
+                    withCredentials([
+                        string(credentialsId: 'nvd-api-key', variable: 'NVD_API_KEY')
+                    ]) {
+
+                        dependencyCheck(
+                            odcInstallation: 'DependencyCheck',
+                            additionalArguments: "--scan . --format XML --format HTML --nvdApiKey ${NVD_API_KEY}"
+                        )
+
+                    }
+
+                    dependencyCheckPublisher(
+                        pattern: '**/dependency-check-report.xml'
+                    )
+                }
+            }
+        }
 
         stage('Docker Build') {
             steps {
@@ -56,22 +68,27 @@ stage('OWASP Dependency Check') {
                 }
             }
         }
-        stage('Trivy Image Scan') {
-    steps {
-        dir('employee-management-api/employee-management-api') {
-            bat 'trivy image --timeout 30m --format table -o trivy-report.txt employee-management-api:latest'
-        }
-    }
-}
 
-        stage('Docker Run') {
-    steps {
-        dir('employee-management-api/employee-management-api') {
-            bat 'docker rm -f employee-api || exit 0'
-            bat 'docker run -d --name employee-api --network employee-management-api_default -p 8080:8080 employee-management-api:latest'
-        }
-    }
-}
+        stage('Trivy Image Scan') {
+            steps {
+                dir('employee-management-api/employee-management-api') {
+                    bat 'trivy image --timeout 30m --format table -o trivy-report.txt employee-management-api:latest'
+                }
             }
         }
-    
+
+        stage('Docker Run') {
+            steps {
+                dir('employee-management-api/employee-management-api') {
+
+                    bat '''
+                    docker rm -f employee-api
+                    exit /b 0
+                    '''
+
+                    bat 'docker run -d --name employee-api -p 8080:8080 employee-management-api:latest'
+                }
+            }
+        }
+    }
+}
