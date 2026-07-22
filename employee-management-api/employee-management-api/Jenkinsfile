@@ -90,20 +90,44 @@ pipeline {
     }
 }
     }
+    stage('Fetch AWS Secret') {
+    steps {
+        withCredentials([[
+            $class: 'AmazonWebServicesCredentialsBinding',
+            credentialsId: 'aws-creds'
+        ]]) {
 
-        stage('Docker Run') {
-            steps {
-                dir('employee-management-api/employee-management-api') {
+            dir('employee-management-api/employee-management-api') {
 
-                    bat '''
-                    docker rm -f employee-api
-                    exit /b 0
-                    '''
+                bat '''
+                aws secretsmanager get-secret-value ^
+                  --secret-id employee-management/db-password ^
+                  --query SecretString ^
+                  --output text > dbpassword.txt
+                '''
 
-                    bat 'docker run -d --name employee-api -p 8080:8080 employee-management-api:latest'
-                }
             }
         }
+    }
+}
+
+        stage('Docker Run') {
+    steps {
+        dir('employee-management-api/employee-management-api') {
+
+            bat '''
+            for /f %%i in (dbpassword.txt) do (
+                docker rm -f employee-api
+                docker run -d ^
+                  --name employee-api ^
+                  -e DB_PASSWORD=%%i ^
+                  -p 8080:8080 ^
+                  employee-management-api:latest
+            )
+            '''
+        }
+    }
+}
         stage('OWASP ZAP DAST Scan') {
     steps {
         dir('employee-management-api/employee-management-api') {
