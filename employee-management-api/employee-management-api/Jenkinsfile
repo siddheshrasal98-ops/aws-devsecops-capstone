@@ -33,8 +33,9 @@ pipeline {
 
         stage('Checkov Scan') {
     steps {
+        bat 'checkov --version'
         dir('employee-management-api/employee-management-api/terraform') {
-            bat 'checkov -d . || exit /b 0'
+            bat 'checkov -d .'
         }
     }
 }
@@ -76,6 +77,17 @@ pipeline {
                 }
             }
         }
+        stage('OPA Policy Check') {
+    steps {
+
+        dir('employee-management-api/employee-management-api') {
+        bat '''
+        cd policy
+        C:\\OPA\\opa.exe eval -i input.json -d policy.rego "data.devsecops.deny"
+        '''
+    }
+}
+    }
 
         stage('Docker Run') {
             steps {
