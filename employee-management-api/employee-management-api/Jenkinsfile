@@ -115,7 +115,7 @@ pipeline {
             java -jar zap-2.17.0.jar ^
             -cmd ^
             -quickurl http://host.docker.internal:8080 ^
-            -quickout zap-report.html
+            -quickout "%CD%\\zap-report.html"
             '''
         }
     }
