@@ -33,18 +33,10 @@ pipeline {
 
         stage('Checkov Scan') {
     steps {
-        dir('employee-management-api/terraform') {
-            bat '''
-            echo Current Directory:
-            cd
-            echo.
-            dir
-            echo.
-            where checkov
-            echo.
-            "C:\\Program Files\\Python312\\Scripts\\checkov.cmd" --version
-            '''
-        }
+        bat 'cd'
+        bat 'dir'
+        bat 'dir employee-management-api'
+        bat 'dir employee-management-api\\terraform'
     }
 }
 
