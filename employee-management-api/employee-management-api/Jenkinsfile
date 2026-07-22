@@ -33,15 +33,13 @@ pipeline {
 
         stage('Check Workspace') {
     steps {
-        bat 'cd'
-        bat 'echo ===================='
         bat 'dir'
-        bat 'echo ===================='
+        bat 'echo =========================='
         bat 'dir employee-management-api'
-        bat 'echo ===================='
-        bat 'dir employee-management-api\\terraform'
-        bat 'echo ===================='
-        bat 'dir terraform'
+        bat 'echo =========================='
+        bat 'dir employee-management-api\\employee-management-api'
+        bat 'echo =========================='
+        bat 'dir employee-management-api\\employee-management-api\\terraform'
     }
 }
 
