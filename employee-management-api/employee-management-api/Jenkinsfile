@@ -104,5 +104,21 @@ pipeline {
                 }
             }
         }
+        stage('OWASP ZAP DAST Scan') {
+    steps {
+        dir('employee-management-api/employee-management-api') {
+            bat '''
+            docker ps
+
+            cd "C:\\Program Files\\ZAP\\Zed Attack Proxy"
+
+            java -jar zap-2.17.0.jar ^
+            -cmd ^
+            -quickurl http://host.docker.internal:8080 ^
+            -quickout zap-report.html
+            '''
+        }
+    }
+}
     }
 }
