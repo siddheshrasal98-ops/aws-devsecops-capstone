@@ -31,12 +31,17 @@ pipeline {
             }
         }
 
-        stage('Checkov Scan') {
+        stage('Check Workspace') {
     steps {
         bat 'cd'
+        bat 'echo ===================='
         bat 'dir'
+        bat 'echo ===================='
         bat 'dir employee-management-api'
+        bat 'echo ===================='
         bat 'dir employee-management-api\\terraform'
+        bat 'echo ===================='
+        bat 'dir terraform'
     }
 }
 
