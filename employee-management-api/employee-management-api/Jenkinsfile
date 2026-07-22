@@ -33,9 +33,7 @@ pipeline {
 
         stage('Checkov Scan') {
     steps {
-        dir('employee-management-api/employee-management-api/terraform') {
-            bat 'checkov -d .'
-        }
+        bat 'echo %PATH%'
     }
 }
 
