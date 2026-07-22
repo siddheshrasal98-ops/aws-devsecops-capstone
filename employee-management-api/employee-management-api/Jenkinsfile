@@ -101,7 +101,7 @@ pipeline {
 
                 bat '''
                 aws secretsmanager get-secret-value ^
-                  --region ap-south-1 ^                
+                  --region ap-south-1 ^
                   --secret-id employee-management/db-password ^
                   --query SecretString ^
                   --output text > dbpassword.txt
