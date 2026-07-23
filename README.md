@@ -1,212 +1,195 @@
-# 🚀 AWS DevSecOps Capstone Project
+# 🚀 AWS DevSecOps CI/CD Pipeline for Employee Management Application
 
 ## 📌 Project Overview
 
-This project demonstrates an end-to-end DevSecOps CI/CD pipeline for a Spring Boot Employee Management application using Jenkins, Docker, AWS, SonarQube, Trivy, OWASP Dependency Check, OWASP ZAP, Prometheus, and Grafana.
+This project demonstrates the implementation of a complete **AWS DevSecOps CI/CD Pipeline** for a Spring Boot Employee Management Application. The solution integrates Continuous Integration, Infrastructure as Code (IaC), DevSecOps security practices, automated deployment, and monitoring using industry-standard tools and AWS cloud services.
 
-The pipeline automates code quality analysis, security scanning, containerization, deployment, monitoring, and secret management following DevSecOps best practices.
-
----
-
-# 🏗️ Architecture Diagram
-
-![Architecture Diagram](employee-management-api/screenshots/architecture/architecture-diagram.png)
+The pipeline automates code integration, quality analysis, security validation, infrastructure provisioning, containerization, deployment, and observability while following modern DevSecOps best practices.
 
 ---
 
-# 🛠️ Tech Stack
+# 🎯 Objectives
 
-| Category | Technologies |
-|-----------|--------------|
-| Language | Java 17 |
-| Framework | Spring Boot |
-| Build Tool | Maven |
-| Version Control | Git & GitHub |
+- Automate application build and deployment using Jenkins.
+- Implement Infrastructure as Code using Terraform.
+- Integrate security throughout the CI/CD pipeline.
+- Perform automated vulnerability scanning.
+- Secure sensitive credentials using AWS Secrets Manager.
+- Deploy containerized applications using Docker.
+- Monitor infrastructure and application performance using Prometheus and Grafana.
+
+---
+
+# 🛠 Technology Stack
+
+| Category | Tools |
+|-----------|--------|
+| Version Control | Git, GitHub |
 | CI/CD | Jenkins |
-| Code Quality | SonarQube |
-| Dependency Security | OWASP Dependency Check |
-| Container Security | Trivy |
-| Dynamic Security Testing | OWASP ZAP |
+| Build Tool | Maven |
+| Application | Spring Boot |
+| Static Code Analysis (SAST) | SonarQube |
+| Software Composition Analysis (SCA) | OWASP Dependency Check |
+| Infrastructure as Code | Terraform |
+| IaC Security | Checkov |
+| Policy as Code | Open Policy Agent (OPA) |
 | Containerization | Docker |
-| Secrets Management | AWS Secrets Manager |
-| Monitoring | Prometheus |
-| Visualization | Grafana |
+| Container Security | Trivy |
+| Secret Management | AWS Secrets Manager |
+| Dynamic Application Security Testing | OWASP ZAP |
+| Monitoring | Spring Boot Actuator, Prometheus, Grafana |
+| Cloud Platform | AWS |
 
 ---
 
-# 📂 Project Structure
+# 🔄 CI/CD Pipeline Workflow
+
+```
+Developer
+     │
+     ▼
+GitHub Repository
+     │
+     ▼
+Jenkins Pipeline
+     │
+     ├── Source Code Checkout
+     ├── Maven Build
+     ├── SonarQube (SAST)
+     ├── OWASP Dependency Check (SCA)
+     ├── Checkov (IaC Scan)
+     ├── Open Policy Agent (OPA)
+     ├── Terraform (AWS Infrastructure)
+     ├── Docker Build
+     ├── Trivy Image Scan
+     ├── AWS Secrets Manager
+     ├── Docker Deployment
+     ├── OWASP ZAP (DAST)
+     ▼
+Spring Boot Application
+     │
+     ├── Spring Boot Actuator
+     ▼
+Prometheus
+     ▼
+Grafana
+```
+
+---
+
+# 🔐 DevSecOps Security Implementation
+
+- ✅ SonarQube – Static Application Security Testing (SAST)
+- ✅ OWASP Dependency Check – Software Composition Analysis (SCA)
+- ✅ Checkov – Infrastructure as Code Security Scanning
+- ✅ Open Policy Agent (OPA) – Policy as Code Validation
+- ✅ Trivy – Docker Image Vulnerability Scanning
+- ✅ AWS Secrets Manager – Secure Secret Management
+- ✅ OWASP ZAP – Dynamic Application Security Testing (DAST)
+
+---
+
+# ☁ Infrastructure as Code
+
+Infrastructure provisioning is automated using **Terraform**, including:
+
+- AWS Provider Configuration
+- EC2 Instance Provisioning
+- Security Groups
+- IAM Configuration
+- Terraform State Management
+- Jenkins Integration
+
+Terraform Commands Used:
+
+```bash
+terraform init
+terraform plan
+terraform apply
+terraform destroy
+```
+
+---
+
+# 📊 Monitoring & Observability
+
+The deployed application is continuously monitored using:
+
+- Spring Boot Actuator
+- Prometheus
+- Grafana Dashboards
+
+Metrics monitored include:
+
+- CPU Usage
+- Memory Usage
+- JVM Metrics
+- Application Health
+- Network Statistics
+
+---
+
+# 📂 Repository Structure
 
 ```
 aws-devsecops-capstone/
 │
+├── employee-management-api/
+├── terraform/
+├── opa/
+├── screenshots/
+├── Jenkinsfile
+├── Dockerfile
+├── docker-compose.yml
 ├── README.md
-├── LICENSE
-├── .gitignore
-│
-└── employee-management-api/
-    ├── Jenkinsfile
-    ├── Dockerfile
-    ├── pom.xml
-    ├── prometheus.yml
-    ├── policy/
-    ├── src/
-    └── screenshots/
+└── LICENSE
 ```
 
 ---
 
-# ⚙️ CI/CD Pipeline Stages
+# 📸 Project Screenshots
 
-✅ Source Code Checkout
+The repository includes screenshots for:
 
-✅ Maven Build
-
-✅ Unit Testing
-
-✅ SonarQube Code Analysis
-
-✅ OWASP Dependency Check
-
-✅ Trivy Image Scan
-
-✅ Docker Image Build
-
-✅ AWS Secrets Retrieval
-
-✅ Docker Container Deployment
-
-✅ OWASP ZAP DAST Scan
-
-✅ Monitoring using Prometheus & Grafana
-
----
-
-# 📸 Screenshots
-
-## Jenkins
-
-### Pipeline Success
-
-![Pipeline](employee-management-api/screenshots/jenkins/01-pipeline-success.png)
-
-### Console Output
-
-![Console](employee-management-api/screenshots/jenkins/02-console-output-success.png)
-
----
-
-## SonarQube
-
-![SonarQube](employee-management-api/screenshots/sonarqube/sonarqube-dashboard.png)
-
----
-
-## OWASP Dependency Check
-
-![Dependency Check](employee-management-api/screenshots/dependency-check/dependency-check.png)
-
----
-
-## Trivy Image Scan
-
-![Trivy](employee-management-api/screenshots/trivy/trivy-scan.png)
-
----
-
-## Docker
-
-![Docker](employee-management-api/screenshots/docker/docker-containers.png)
-
----
-
-## AWS Secrets Manager
-
-![AWS Secrets](employee-management-api/screenshots/aws-secrets/aws-secret.png)
-
----
-
-## Prometheus
-
-![Prometheus](employee-management-api/screenshots/prometheus/prometheus-targets.png)
-
----
-
-## Grafana
-
-![Grafana](employee-management-api/screenshots/grafana/grafana-dashboard.png)
-
----
-
-## OWASP ZAP
-
-![OWASP ZAP](employee-management-api/screenshots/zap/zap-report.png)
-
----
-
-# 🔒 Security Features
-
-- SonarQube Static Code Analysis
-- OWASP Dependency Check
-- Trivy Container Image Scanning
-- OWASP ZAP Dynamic Application Security Testing
-- AWS Secrets Manager Integration
-- Secure Jenkins Credentials Management
-
----
-
-# 📈 Monitoring
-
-The deployed application is monitored using:
-
-- Prometheus Metrics
-- Spring Boot Actuator
+- Jenkins Pipeline Success
+- SonarQube Dashboard
+- OWASP Dependency Check Report
+- Checkov Scan
+- Terraform Deployment
+- Docker Containers
+- Trivy Scan
+- AWS Secrets Manager
+- Prometheus Targets
 - Grafana Dashboard
+- OWASP ZAP Report
+- Architecture Diagram
 
 ---
 
-# 🚀 How to Run
+# ⭐ Key Features
 
-## Clone Repository
-
-```bash
-git clone https://github.com/siddheshrasal98-ops/aws-devsecops-capstone.git
-```
-
-## Navigate
-
-```bash
-cd aws-devsecops-capstone/employee-management-api
-```
-
-## Build
-
-```bash
-mvn clean package
-```
-
-## Build Docker Image
-
-```bash
-docker build -t employee-api .
-```
-
-## Run Container
-
-```bash
-docker run -d -p 8080:8080 employee-api
-```
+- Automated CI/CD Pipeline
+- Infrastructure as Code (Terraform)
+- Shift-Left DevSecOps Implementation
+- Secure Secret Management
+- Automated Security Scanning
+- Containerized Deployment
+- Real-Time Monitoring
+- Policy as Code Validation
+- AWS Cloud Deployment
 
 ---
 
-# 📊 Project Highlights
+# 🚀 Future Enhancements
 
-- End-to-End DevSecOps Pipeline
-- Automated CI/CD
-- Static & Dynamic Security Testing
-- Docker Containerization
-- AWS Secrets Manager Integration
-- Monitoring with Prometheus & Grafana
-- Security-first Deployment Pipeline
+- Kubernetes Deployment
+- Amazon EKS
+- Helm Charts
+- Argo CD (GitOps)
+- Slack/MS Teams Notifications
+- Blue-Green Deployment
+- Canary Deployment
+- Automated Rollback Strategy
 
 ---
 
@@ -214,12 +197,10 @@ docker run -d -p 8080:8080 employee-api
 
 **Siddhesh Rasal**
 
-GitHub:
-https://github.com/siddheshrasal98-ops
-
-LinkedIn:
-(Add your LinkedIn profile link)
+GitHub: https://github.com/siddheshrasal98-ops
 
 ---
 
-# ⭐ If you found this project useful, consider giving it a Star!
+# 📜 License
+
+This project was developed as part of the **Edureka Post Graduate Program in DevOps (PGDM)** for educational and portfolio purposes.
